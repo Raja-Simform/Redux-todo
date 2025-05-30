@@ -1,4 +1,7 @@
+import { List, Typography } from "antd";
 import { Link } from "react-router-dom";
+
+const { Text } = Typography;
 
 type TodoItemProps = {
   id: string;
@@ -6,16 +9,29 @@ type TodoItemProps = {
   done: boolean;
   date: string;
 };
+
 export default function TodoItem({ id, text, done, date }: TodoItemProps) {
   return (
-    <li key={id} className={`flex justify-between items-center border-b pb-2 `}>
+    <List.Item
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottom: "1px solid #f0f0f0",
+        paddingBottom: 8,
+      }}
+    >
       <Link
         to={`/todos/${id}`}
-        className={`text-lg hover:text-green-600 transition `}
+        style={{
+          fontSize: 16,
+          textDecoration: done ? "line-through" : "none",
+          color: done ? "#888" : undefined,
+        }}
       >
-        {done ? <s>{text}</s> : text}
-      </Link>{" "}
-      <small>(Added: {date})</small>
-    </li>
+        {text}
+      </Link>
+      <Text type="secondary">(Added: {date})</Text>
+    </List.Item>
   );
 }
