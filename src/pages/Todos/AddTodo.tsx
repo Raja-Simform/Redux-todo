@@ -6,12 +6,10 @@ import { useAppDispatch } from "../../store/TodoStore";
 import { Button, Card, Input, Space, Typography } from "antd";
 
 const { Title } = Typography;
-
 export default function AddTodo() {
   const [text, setText] = useState<string>("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (text.trim() === "") {
@@ -22,7 +20,6 @@ export default function AddTodo() {
     setText("");
     navigate("/todos");
   }
-
   return (
     <Card
       style={{ maxWidth: 480, margin: "2rem auto", borderRadius: 8 }}

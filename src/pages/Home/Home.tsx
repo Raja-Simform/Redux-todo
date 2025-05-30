@@ -1,9 +1,18 @@
-import { useTheme } from "../../store/ThemeContext/ThemeContext"
+import { Typography, Layout } from "antd";
 
-export default function Home(){
-  //added theme here using themprovider and using custom hook useTheme
-  const{darkMode}=useTheme();
-  return (<div className={darkMode ? "bg-gray-800 text-white" : "bg-white text-black"}>
-    <h1>Welcome to home page</h1>
-  </div>)
+const { Title } = Typography;
+const { Content } = Layout;
+
+export default function Home() {
+  return (
+    <Layout
+      style={{
+        padding: "2rem",
+      }}
+    >
+      <Content>
+        <Title>Welcome to home page</Title>
+      </Content>
+    </Layout>
+  );
 }

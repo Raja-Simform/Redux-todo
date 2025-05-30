@@ -6,19 +6,15 @@ import { useAppSelector, type RootState } from "../../store/TodoStore";
 import { Button, Input, List, Space, Typography } from "antd";
 
 const { Text, Title } = Typography;
-
 export default function Todos() {
   const { darkMode } = useTheme();
-
   const navigate = useNavigate();
   const [searchParam, setSearchParam] = useSearchParams();
   const todos = useAppSelector((state: RootState) => state.todos);
-
   const search = searchParam.get("search") || "";
   const filterTodos = todos.filter((todo) =>
     todo.text.toLowerCase().includes(search.toLowerCase())
   );
-
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     if (value) {
@@ -27,20 +23,23 @@ export default function Todos() {
       setSearchParam({});
     }
   }
-
   return (
     <div
-      className={`max-w-3xl mx-auto p-6 mt-8 rounded ${
-        darkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
-      }`}
+      style={{
+        maxWidth: 768,
+        margin: "2rem auto",
+        padding: 24,
+        borderRadius: 8,
+        backgroundColor: darkMode ? "#1f1f1f" : "#fff",
+        color: darkMode ? "#f0f0f0" : "#000",
+      }}
     >
-      <Title level={2} className="mb-4">
+      <Title level={2} style={{ marginBottom: 24, color: "#f0f0f0" }}>
         Welcome to my todo
       </Title>
       <TodoCount />
       <Space
-        className="mb-6"
-        style={{ width: "100%" }}
+        style={{ width: "100%", marginBottom: 24 }}
         align="start"
         size="middle"
       >
@@ -50,8 +49,6 @@ export default function Todos() {
           onChange={handleSearchChange}
           allowClear
           size="large"
-          className={darkMode ? "bg-gray-800 text-gray-100" : ""}
-          style={{ flexGrow: 1 }}
         />
         <Button
           type="primary"
@@ -63,33 +60,32 @@ export default function Todos() {
       </Space>
 
       {filterTodos.length === 0 ? (
-        <Text className="block text-center">No todos found.</Text>
+        <Text style={{ display: "block", textAlign: "center" }}>
+          No todos found.
+        </Text>
       ) : (
         <List
           bordered={!darkMode}
           dataSource={filterTodos}
           renderItem={(todo) => (
             <List.Item
-              className={darkMode ? "bg-gray-900 border-gray-700" : ""}
               extra={<Text type="secondary">(Added: {todo.date})</Text>}
             >
               <Link
                 to={`/todos/${todo.id}`}
-                className={`text-lg transition ${
-                  todo.done
-                    ? "line-through text-gray-500"
-                    : darkMode
-                    ? "text-gray-100"
-                    : "text-gray-800"
-                }`}
+                style={{
+                  fontSize: 18,
+                  color: todo.done ? "#888" : darkMode ? "#f0f0f0" : "#000",
+                  textDecoration: todo.done ? "line-through" : "none",
+                  transition: "color 0.3s",
+                }}
               >
-                {todo.done ? <s>{todo.text}</s> : todo.text}
+                {todo.text}
               </Link>
             </List.Item>
           )}
         />
       )}
-
       <Outlet />
     </div>
   );
