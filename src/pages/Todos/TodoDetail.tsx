@@ -1,15 +1,17 @@
-import { useContext, useState } from "react";
-import { TodoContext } from "../../store/TodoContext";
+import { useState } from "react";
 import TodoCount from "../../components/TodoCount/TodoCount";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "../../store/ThemeContext/ThemeContext";
+import {
+  useAppDispatch,
+  useAppSelector,
+  type RootState,
+} from "../../store/TodoStore";
+import { doneTodo, editTodo } from "../../store/TodoSlice";
 export default function TodoDetail() {
-  const context = useContext(TodoContext);
-  const {darkMode}=useTheme();
-  if (!context) {
-    throw Error("Context Not found");
-  }
-  const { todos, dispatch } = context;
+  const todos = useAppSelector((state: RootState) => state.todos);
+  const dispatch = useAppDispatch();
+  const { darkMode } = useTheme();
   const { id } = useParams<{ id: string }>();
   const todoId = id ?? "";
   const todo = todos.find((t) => t.id === todoId);
@@ -19,19 +21,21 @@ export default function TodoDetail() {
 
   if (!todo) {
     return (
-      <p className="text-center text-red-600 mt-8 font-semibold">Todo not found</p>
+      <p className="text-center text-red-600 mt-8 font-semibold">
+        Todo not found
+      </p>
     );
   }
 
   function toggleDone() {
-    dispatch({ type: "DONE_TODO", payload: { id: todoId } });
+    dispatch(doneTodo({ id: todoId }));
   }
   function saveEdit() {
     if (editText.trim() === "") {
       alert("text cannot be empty");
       return;
     }
-    dispatch({ type: "EDIT_TODO", payload: { id: todoId, text: editText } });
+    dispatch(editTodo({ id: todoId, text: editText }));
     setIsEditing(false);
   }
 
@@ -44,9 +48,7 @@ export default function TodoDetail() {
       }`}
     >
       <TodoCount />
-      <h3 className="text-2xl font-semibold mb-4">
-        Todo Detail
-      </h3>
+      <h3 className="text-2xl font-semibold mb-4">Todo Detail</h3>
       <p className="mb-2">
         <strong>ID:</strong> {todo.id}
       </p>

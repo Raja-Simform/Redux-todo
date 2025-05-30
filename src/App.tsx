@@ -1,20 +1,19 @@
 import "./App.css";
-import { TodoProvider } from "./store/TodoContext";
+import { Provider } from "react-redux";
+import { store } from "../src/store/TodoStore";
 import { Router } from "./components/Route/Router";
 import { ThemeProvider } from "./store/ThemeContext/ThemeContext";
 
 function App() {
   return (
-    <div >
-      <TodoProvider>
+    <div>
+      <Provider store={store}>
         <ThemeProvider>
-        <Router />
+          <Router />
         </ThemeProvider>
-     
-      </TodoProvider>
+      </Provider>
     </div>
   );
 }
 
 export default App;
-

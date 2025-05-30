@@ -1,24 +1,20 @@
-import { useContext, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { TodoContext } from "../../store/TodoContext";
 import TodoCount from "../../components/TodoCount/TodoCount";
+import { addTodo } from "../../store/TodoSlice";
+import { useAppDispatch } from "../../store/TodoStore";
 
 export default function AddTodo() {
-  const context = useContext(TodoContext);
-  if (!context) {
-    throw Error("Context Not found");
-  }
-  const { dispatch } = context;
   const [text, setText] = useState<string>("");
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (text.trim() === "") {
       alert("Todo text cannot be empty");
       return;
     }
-    dispatch({ type: "ADD_TODO", payload: { text } });
+    dispatch(addTodo({ text }));
     setText("");
     navigate("/todos");
   }
@@ -26,7 +22,9 @@ export default function AddTodo() {
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md mt-8">
       <TodoCount />
-      <h3 className="text-2xl font-semibold mb-4 text-gray-800">Add New Todo</h3>
+      <h3 className="text-2xl font-semibold mb-4 text-gray-800">
+        Add New Todo
+      </h3>
       <form onSubmit={handleSubmit} className="flex items-center gap-4">
         <input
           type="text"
@@ -37,7 +35,7 @@ export default function AddTodo() {
         />
         <button
           type="submit"
-         className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition"
+          className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition"
         >
           Add
         </button>

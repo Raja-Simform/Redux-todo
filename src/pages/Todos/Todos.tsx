@@ -1,24 +1,20 @@
-import { useContext, type ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 import { Link, useNavigate, useSearchParams, Outlet } from "react-router-dom";
-import { TodoContext } from "../../store/TodoContext";
 import TodoCount from "../../components/TodoCount/TodoCount";
 import { useTheme } from "../../store/ThemeContext/ThemeContext";
+import { useAppSelector, type RootState } from "../../store/TodoStore";
 
 export default function Todos() {
-  const{darkMode}=useTheme();
-  const context = useContext(TodoContext);
+  const { darkMode } = useTheme();
+
   const navigate = useNavigate();
   const [searchParam, setSearchParam] = useSearchParams();
-  if (!context) {
-    throw Error("Context Not found");
-  }
-  const { todos } = context;
+  const todos = useAppSelector((state: RootState) => state.todos);
 
   const search = searchParam.get("search") || "";
   const filterTodos = todos.filter((todo) =>
     todo.text.toLowerCase().includes(search.toLowerCase())
   );
-
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     if (value) {
@@ -31,9 +27,7 @@ export default function Todos() {
   return (
     <div
       className={`max-w-3xl mx-auto p-6 mt-8 rounded ${
-        darkMode
-          ? "bg-gray-900 text-gray-100" // dark background and light text
-          : "bg-white text-gray-900" // light background and dark text
+        darkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
       }`}
     >
       <h2 className="text-3xl font-bold mb-4">Welcome to my todo</h2>

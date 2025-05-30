@@ -22,7 +22,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     if (darkMode) {
       document.body.style.backgroundColor = "#1a202c";
       document.body.style.color = "white";
-     
     } else {
       document.body.style.backgroundColor = "white";
       document.body.style.color = "black";
