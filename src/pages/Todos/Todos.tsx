@@ -3,6 +3,9 @@ import { Link, useNavigate, useSearchParams, Outlet } from "react-router-dom";
 import TodoCount from "../../components/TodoCount/TodoCount";
 import { useTheme } from "../../store/ThemeContext/ThemeContext";
 import { useAppSelector, type RootState } from "../../store/TodoStore";
+import { Button, Input, List, Space, Typography } from "antd";
+
+const { Text, Title } = Typography;
 
 export default function Todos() {
   const { darkMode } = useTheme();
@@ -15,6 +18,7 @@ export default function Todos() {
   const filterTodos = todos.filter((todo) =>
     todo.text.toLowerCase().includes(search.toLowerCase())
   );
+
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     if (value) {
@@ -30,45 +34,48 @@ export default function Todos() {
         darkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
       }`}
     >
-      <h2 className="text-3xl font-bold mb-4">Welcome to my todo</h2>
+      <Title level={2} className="mb-4">
+        Welcome to my todo
+      </Title>
       <TodoCount />
-      <div className="flex items-center gap-4 mb-6">
-        <input
-          type="text"
+      <Space
+        className="mb-6"
+        style={{ width: "100%" }}
+        align="start"
+        size="middle"
+      >
+        <Input
+          placeholder="Search Todos..."
           value={search}
           onChange={handleSearchChange}
-          placeholder="Search Todos..."
-          className={`flex-grow px-4 py-2 border rounded focus:outline-none focus:ring-2 ${
-            darkMode
-              ? "bg-gray-800 border-gray-700 text-gray-100 focus:ring-indigo-400"
-              : "bg-white border-gray-300 text-gray-900 focus:ring-indigo-500"
-          }`}
+          allowClear
+          size="large"
+          className={darkMode ? "bg-gray-800 text-gray-100" : ""}
+          style={{ flexGrow: 1 }}
         />
-        <button
-          className={`px-5 py-2 rounded transition ${
-            darkMode
-              ? "bg-green-600 hover:bg-green-700 text-white"
-              : "bg-green-500 hover:bg-green-600 text-white"
-          }`}
+        <Button
+          type="primary"
+          size="large"
           onClick={() => navigate("/todos/new")}
         >
           Add
-        </button>
-      </div>
+        </Button>
+      </Space>
+
       {filterTodos.length === 0 ? (
-        <p className="text-center">No todos found.</p>
+        <Text className="block text-center">No todos found.</Text>
       ) : (
-        <ul className="space-y-3">
-          {filterTodos.map((todo) => (
-            <li
-              key={todo.id}
-              className={`flex justify-between items-center border-b pb-2 ${
-                darkMode ? "border-gray-700" : "border-gray-200"
-              }`}
+        <List
+          bordered={!darkMode}
+          dataSource={filterTodos}
+          renderItem={(todo) => (
+            <List.Item
+              className={darkMode ? "bg-gray-900 border-gray-700" : ""}
+              extra={<Text type="secondary">(Added: {todo.date})</Text>}
             >
               <Link
                 to={`/todos/${todo.id}`}
-                className={`text-lg hover:text-green-600 transition ${
+                className={`text-lg transition ${
                   todo.done
                     ? "line-through text-gray-500"
                     : darkMode
@@ -77,12 +84,12 @@ export default function Todos() {
                 }`}
               >
                 {todo.done ? <s>{todo.text}</s> : todo.text}
-              </Link>{" "}
-              <small>(Added: {todo.date})</small>
-            </li>
-          ))}
-        </ul>
+              </Link>
+            </List.Item>
+          )}
+        />
       )}
+
       <Outlet />
     </div>
   );

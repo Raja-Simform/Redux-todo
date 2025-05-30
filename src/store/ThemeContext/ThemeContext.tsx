@@ -1,10 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { ConfigProvider, theme } from "antd";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 type ThemeContextType = {
   darkMode: boolean;
@@ -18,18 +13,24 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setDarkMode((prev) => !prev);
   };
   //applied theme globally  through themeprovider
-  useEffect(() => {
-    if (darkMode) {
-      document.body.style.backgroundColor = "#1a202c";
-      document.body.style.color = "white";
-    } else {
-      document.body.style.backgroundColor = "white";
-      document.body.style.color = "black";
-    }
-  }, [darkMode]);
+
   return (
     <ThemeContext.Provider value={{ darkMode, toggleMode }}>
-      {children}
+      <ConfigProvider
+        theme={{
+          algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        }}
+      >
+        <div
+          style={{
+            minHeight: "100vh",
+            backgroundColor: darkMode ? "#1a202c" : "white",
+            color: darkMode ? "white" : "black",
+          }}
+        >
+          {children}
+        </div>
+      </ConfigProvider>
     </ThemeContext.Provider>
   );
 };

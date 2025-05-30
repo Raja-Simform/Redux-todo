@@ -8,6 +8,10 @@ import {
   type RootState,
 } from "../../store/TodoStore";
 import { doneTodo, editTodo } from "../../store/TodoSlice";
+import { Button, Input, message, Space, Typography } from "antd";
+
+const { Text, Title } = Typography;
+
 export default function TodoDetail() {
   const todos = useAppSelector((state: RootState) => state.todos);
   const dispatch = useAppDispatch();
@@ -21,18 +25,19 @@ export default function TodoDetail() {
 
   if (!todo) {
     return (
-      <p className="text-center text-red-600 mt-8 font-semibold">
+      <Text type="danger" className="block text-center mt-8 font-semibold">
         Todo not found
-      </p>
+      </Text>
     );
   }
 
   function toggleDone() {
     dispatch(doneTodo({ id: todoId }));
   }
+
   function saveEdit() {
     if (editText.trim() === "") {
-      alert("text cannot be empty");
+      message.error("Text cannot be empty");
       return;
     }
     dispatch(editTodo({ id: todoId, text: editText }));
@@ -41,83 +46,77 @@ export default function TodoDetail() {
 
   return (
     <div
-      className={`max-w-lg mx-auto rounded shadow-md p-6 mt-8 ${
+      className={`max-w-lg mx-auto rounded p-6 mt-8 shadow-md ${
         darkMode
           ? "bg-gray-900 text-gray-100 shadow-gray-700"
           : "bg-white text-gray-900 shadow-gray-300"
       }`}
     >
       <TodoCount />
-      <h3 className="text-2xl font-semibold mb-4">Todo Detail</h3>
-      <p className="mb-2">
-        <strong>ID:</strong> {todo.id}
-      </p>
-      <p>
-        <strong>Created At:</strong> {todo.date}
-      </p>
-      <p>
-        <strong>Status:</strong> {todo.done ? "Done" : "Not Done"}
-      </p>
-      <p>
-        <strong>Text:</strong>{" "}
+      <Title level={3} className="mb-4">
+        Todo Detail
+      </Title>
+      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Text>
+          <strong>ID:</strong> {todo.id}
+        </Text>
+        <Text>
+          <strong>Created At:</strong> {todo.date}
+        </Text>
+        <Text>
+          <strong>Status:</strong> {todo.done ? "Done" : "Not Done"}
+        </Text>
+        <Text strong>Text:</Text>
         {isEditing ? (
-          <input
-            type="text"
+          <Input
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
-            className={`w-full m-2 px-3 py-2 border rounded focus:outline-none focus:ring-2 ${
-              darkMode
-                ? "bg-gray-800 border-gray-700 text-gray-100 focus:ring-indigo-400"
-                : "bg-white border-gray-300 text-gray-900 focus:ring-indigo-500"
-            }`}
+            autoFocus
+            className={darkMode ? "bg-gray-800 text-gray-100" : ""}
           />
         ) : todo.done ? (
-          <s className="text-gray-500">{todo.text}</s>
+          <Text delete type="secondary">
+            {todo.text}
+          </Text>
         ) : (
-          todo.text
+          <Text>{todo.text}</Text>
         )}
-      </p>
-      <div className="flex flex-wrap gap-3">
-        <button
-          onClick={toggleDone}
-          className={`px-4 py-2 rounded text-white transition ${
-            todo.done
-              ? "bg-yellow-500 hover:bg-yellow-600"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-        >
-          Mark as {todo.done ? "Not Done" : "Done"}
-        </button>
-        {isEditing ? (
-          <>
-            <button
-              onClick={saveEdit}
-              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 transition"
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        <Space wrap>
+          <Button
+            onClick={toggleDone}
+            type={todo.done ? "default" : "primary"}
+            style={
+              todo.done
+                ? { backgroundColor: "#faad14", color: "#fff" }
+                : undefined
+            }
           >
-            Edit
-          </button>
-        )}
-      </div>
-      <button
-        onClick={() => navigate("/todos")}
-        className="mt-6 w-full bg-green-700 text-white py-2 rounded hover:bg-green-600 transition"
-      >
-        Back to Todos
-      </button>
+            Mark as {todo.done ? "Not Done" : "Done"}
+          </Button>
+
+          {isEditing ? (
+            <>
+              <Button type="primary" onClick={saveEdit}>
+                Save
+              </Button>
+              <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+            </>
+          ) : (
+            <Button type="default" onClick={() => setIsEditing(true)}>
+              Edit
+            </Button>
+          )}
+        </Space>
+        <Button
+          onClick={() => navigate("/todos")}
+          type="primary"
+          danger
+          block
+          className="mt-6"
+        >
+          Back to Todos
+        </Button>
+      </Space>
     </div>
   );
 }

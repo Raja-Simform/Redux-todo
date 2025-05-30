@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { Button } from "antd";
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -13,13 +13,15 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <button
+      <Button
+        type="primary"
         onClick={handleLogin}
+        loading={loading}
         disabled={loading}
-        className="px-6 py-3 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+        size="large"
       >
-        {loading ? "Logging in..." : "Login"}
-      </button>
+        Login
+      </Button>
     </div>
   );
 }
