@@ -22,11 +22,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         }}
       >
         <div
-          style={{
-            minHeight: "100vh",
-            backgroundColor: darkMode ? "#1a202c" : "white",
-            color: darkMode ? "white" : "black",
-          }}
+          className={`min-h-screen ${
+            darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+          }`}
         >
           {children}
         </div>

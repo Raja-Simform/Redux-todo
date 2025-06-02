@@ -12,22 +12,12 @@ type TodoItemProps = {
 
 export default function TodoItem({ id, text, done, date }: TodoItemProps) {
   return (
-    <List.Item
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        borderBottom: "1px solid #f0f0f0",
-        paddingBottom: 8,
-      }}
-    >
+    <List.Item className="flex justify-center items-center border-b-1-white pb-32">
       <Link
         to={`/todos/${id}`}
-        style={{
-          fontSize: 16,
-          textDecoration: done ? "line-through" : "none",
-          color: done ? "#888" : undefined,
-        }}
+        className={`text-base ${
+          done ? "line-through text-gray-500" : "text-inherit"
+        }`}
       >
         {text}
       </Link>

@@ -5,11 +5,7 @@ const { Content } = Layout;
 
 export default function Home() {
   return (
-    <Layout
-      style={{
-        padding: "2rem",
-      }}
-    >
+    <Layout className="p-8 ">
       <Content>
         <Title>Welcome to home page</Title>
       </Content>

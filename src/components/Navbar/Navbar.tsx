@@ -8,32 +8,16 @@ export default function Navbar() {
     toggleMode();
   }
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: 32,
-        fontSize: 24,
-        backgroundColor: darkMode ? "#3F5EFB" : "#f5f5f5",
-        color: darkMode ? "#fff" : "#000",
-        alignItems: "center",
-      }}
-    >
+    <div className="flex justify-between p-6 text-3xl bg-inherit text-inherit items-center">
       <nav>
         <Space size="large" align="center">
-          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+          <Link to="/" className="text-inherit ">
             Home
           </Link>
-          <Link
-            to="/about"
-            style={{ color: "inherit", textDecoration: "none" }}
-          >
+          <Link to="/about" className="text-inherit ">
             About
           </Link>
-          <Link
-            to="/todos"
-            style={{ color: "inherit", textDecoration: "none" }}
-          >
+          <Link to="/todos" className="text-inherit ">
             Todos
           </Link>
         </Space>
