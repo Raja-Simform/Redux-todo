@@ -21,34 +21,33 @@ export default function AddTodo() {
     navigate("/todos");
   }
   return (
-    <Card
-      style={{ maxWidth: 480, margin: "2rem auto", borderRadius: 8 }}
-      hoverable
-    >
-      <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        <TodoCount />
-        <Title level={3} style={{ marginBottom: 0 }}>
-          Add New Todo
-        </Title>
-        <form onSubmit={handleSubmit}>
-          <Space.Compact style={{ width: "100%" }} size="large">
-            <Input
-              placeholder="Enter todo text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              size="large"
-              allowClear
-              autoFocus
-            />
-            <Button type="primary" htmlType="submit" size="large">
-              Add
-            </Button>
-          </Space.Compact>
-        </form>
-        <Button onClick={() => navigate("/todos")} size="large" danger block>
-          Back to Todos
-        </Button>
-      </Space>
-    </Card>
+    <div className="flex justify-center">
+      <Card className="w-xl mx-auto my-auto rounded-lg" hoverable>
+        <Space direction="vertical" size="large" className="w-full">
+          <TodoCount />
+          <Title level={3} className="mb-0">
+            Add New Todo
+          </Title>
+          <form onSubmit={handleSubmit}>
+            <Space.Compact size="large" className="w-full">
+              <Input
+                placeholder="Enter todo text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                size="large"
+                allowClear
+                autoFocus
+              />
+              <Button type="primary" htmlType="submit" size="large">
+                Add
+              </Button>
+            </Space.Compact>
+          </form>
+          <Button onClick={() => navigate("/todos")} size="large" danger block>
+            Back to Todos
+          </Button>
+        </Space>
+      </Card>
+    </div>
   );
 }

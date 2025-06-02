@@ -1,28 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import { TOKEN } from "../../constants/constants";
 
 export default function Login() {
   const navigate = useNavigate();
 
   function handleLogin() {
-    localStorage.setItem("token", "7");
+    localStorage.setItem("token", TOKEN);
     navigate("/");
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="flex justify-center items-center h-screen">
       <Button
         type="primary"
         size="large"
         onClick={handleLogin}
-        style={{ minWidth: 120, height: 40 }}
+        className="min-w-28 h-10"
       >
         Login
       </Button>

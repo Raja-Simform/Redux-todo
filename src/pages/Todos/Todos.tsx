@@ -23,26 +23,14 @@ export default function Todos() {
       setSearchParam({});
     }
   }
+
   return (
-    <div
-      style={{
-        maxWidth: 768,
-        margin: "2rem auto",
-        padding: 24,
-        borderRadius: 8,
-        backgroundColor: darkMode ? "#1f1f1f" : "#fff",
-        color: darkMode ? "#f0f0f0" : "#000",
-      }}
-    >
-      <Title level={2} style={{ marginBottom: 24, color: "#f0f0f0" }}>
+    <div className="max-w-2xl mx-auto my-8 p-6 rounded-lg bg-inherit text-inherit">
+      <Title level={2} className="mb-6">
         Welcome to my todo
       </Title>
       <TodoCount />
-      <Space
-        style={{ width: "100%", marginBottom: 24 }}
-        align="start"
-        size="middle"
-      >
+      <Space align="start" size="middle" className="max-w-2xl mb-6">
         <Input
           placeholder="Search Todos..."
           value={search}
@@ -60,9 +48,7 @@ export default function Todos() {
       </Space>
 
       {filterTodos.length === 0 ? (
-        <Text style={{ display: "block", textAlign: "center" }}>
-          No todos found.
-        </Text>
+        <Text className=" block text-center">No todos found.</Text>
       ) : (
         <List
           bordered={!darkMode}
@@ -73,12 +59,9 @@ export default function Todos() {
             >
               <Link
                 to={`/todos/${todo.id}`}
-                style={{
-                  fontSize: 18,
-                  color: todo.done ? "#888" : darkMode ? "#f0f0f0" : "#000",
-                  textDecoration: todo.done ? "line-through" : "none",
-                  transition: "color 0.3s",
-                }}
+                className={`text-lg ${
+                  todo.done ? "text-gray-400 line-through" : "text-inherit"
+                }`}
               >
                 {todo.text}
               </Link>
